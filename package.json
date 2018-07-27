@@ -1,15 +1,18 @@
 {
-  "name": "reddit-elasticsearch",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "name": "reddit-es-react",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "elasticsearch": "^15.1.1"
+    "elasticsearch": "^15.1.1",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   }
 }
