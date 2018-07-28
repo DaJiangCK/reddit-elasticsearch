@@ -14,37 +14,29 @@ class App extends Component {
 
 	componentWillMount() {
 		console.log('this function works');
-		
-		// Axios Request
-		 axios.get('http://localhost:9200/redditnba/post/_search?size=25')
-      	.then(res => {
+		axios.get('http://localhost:3000/api/posts')
+		.then(res => {
+			console.log(res);
 			this.setState({
-				data: res.data.hits.hits
+				data: res.data
 			});
-      	});
+		})
 	}
 
 	mainButtonClick() {
 		console.log('main button clicked');
-		const searchQuery = {
-    		query: { 
-				match: { 
-					"title": this.state.searchValue
-				} 
+		axios.get('http://localhost:3000/api/posts/search',  {
+			params: { 
+				text: this.state.searchValue
 			}
-  		};
-
-		axios.get('http://localhost:9200/redditnba/post/_search', {params: {
-			source: JSON.stringify(searchQuery),
-			source_content_type: 'application/json'
-		}})
+		})
 		.then(res => {
-			// console.log(res);
-			// console.log(res.data.hits.hits);
+			console.log(res);
 			this.setState({
-				data: res.data.hits.hits
+				data: res.data.results
 			});
 		});
+
 	}
 
 	updateSearchValue (evt) {
@@ -60,7 +52,7 @@ class App extends Component {
 				<ul>
 					{
 						this.state.data.map((document, i) => {
-							return (<li key={i}><a href={document._source.url}>{document._source.title}</a></li>)
+							return (<li key={i}><a href={document.url}>{document.title}</a></li>)
 						})
 					}
 				</ul>

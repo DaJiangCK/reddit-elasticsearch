@@ -1,0 +1,23 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "es",
+    "index": "redditnba",
+    "hosts": [
+      {
+        "protocol": "http",
+        "host": "127.0.0.1",
+        "port": 9200
+      }
+    ],
+    "apiVersion": "1.0",
+    "refreshOn": [
+      "save",
+      "create",
+      "updateOrCreate"
+    ],
+    "log": "trace",
+    "defaultSize": 50,
+    "requestTimeout": 30000
+  }
+}
