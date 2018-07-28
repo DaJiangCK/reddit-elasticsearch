@@ -16,11 +16,11 @@ class App extends Component {
 		console.log('this function works');
 		axios.get('http://localhost:3000/api/posts')
 		.then(res => {
-			console.log(res);
+			console.log('Load Data', res);
 			this.setState({
 				data: res.data
 			});
-		})
+		});
 	}
 
 	mainButtonClick() {
@@ -36,7 +36,14 @@ class App extends Component {
 				data: res.data.results
 			});
 		});
+	}
 
+	fetchDataButtonClick() {
+		axios.post('http://localhost:3000/api/posts/bulkInsert')
+		.then(res => {
+			console.log('Insert Data', res);
+			return <App />
+		});
 	}
 
 	updateSearchValue (evt) {
@@ -57,6 +64,7 @@ class App extends Component {
 					}
 				</ul>
 				<button onClick={() => {this.mainButtonClick()}}>Click Me</button>
+				<button onClick={() => {this.fetchDataButtonClick()}}>Fetch posts from reddit/r/nba</button>
 			</div>
 		);
 	}
