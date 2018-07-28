@@ -1,24 +1,5 @@
 # reddit-elasticsearch
 
-
-### Installing
-
-
-```
-docker-compose build
-```
-```
-docker-compose up -d
-```
-```
-npm install
-```
-```
-npm start
-```
-
-# reddit-elasticsearch
-
 This is an example app for how to use elasticsearch and reddit.
 This app is using react as front-end and loopback as back-end.
 
