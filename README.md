@@ -19,20 +19,20 @@ docker-compose up -d
 
 ### Installing
 
-Start front-end app and it will listen at http://localhost:3001
-
-```
-cd reddit-elasticsearch/client-src
-npm install
-npm start
-```
-
 Start back-end app and it will listen at http://localhost:3000
 
 ```
 cd reddit-elasticsearch
 npm install
 node .
+```
+
+Start front-end app and it will listen at http://localhost:3001
+
+```
+cd reddit-elasticsearch/client-src
+npm install
+npm start
 ```
 
 ## Authors
