@@ -11,8 +11,10 @@
     "posttest": "npm run lint && nsp check"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
+    "elasticsearch": "^15.1.1",
     "helmet": "^3.10.0",
     "loopback": "^3.19.0",
     "loopback-boot": "^2.6.5",
