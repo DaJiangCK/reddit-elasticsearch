@@ -66,6 +66,17 @@ module.exports = function (Post) {
       throw new Error(err);
     });
   }
+
+  Post.bulkDelete = function (cb) {
+    client.indices.delete({
+      index: 'redditnba'
+    }).then(res => {
+      cb(null, "Bulk Delete is done!");
+    }).catch(err => {
+      throw new Error(err);
+    })
+  }
+
   Post.remoteMethod('bulkInsert', {
     http: {
       verb: 'post'
@@ -86,6 +97,15 @@ module.exports = function (Post) {
     },
     http: {
       verb: 'get'
+    }
+  });
+  Post.remoteMethod('bulkDelete', {
+    http: {
+      verb: 'delete'
+    },
+    returns: {
+      arg: 'msg',
+      type: 'string'
     }
   });
 };
