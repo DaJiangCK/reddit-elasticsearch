@@ -32,7 +32,7 @@ Start front-end app and it will listen at http://localhost:3001
 ```
 cd reddit-elasticsearch/client-src
 npm install
-npm start
+npm run start
 ```
 
 ## Authors
