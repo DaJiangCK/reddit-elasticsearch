@@ -30,7 +30,7 @@ npm start
 Start back-end app and it will listen at http://localhost:3000
 
 ```
-cd reddit-elasticsearch/client-src
+cd reddit-elasticsearch
 npm install
 node .
 ```
