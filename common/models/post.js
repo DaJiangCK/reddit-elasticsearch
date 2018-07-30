@@ -8,6 +8,16 @@ const client = new elasticsearch.Client({
 });
 const axios = require('axios');
 module.exports = function (Post) {
+  Post.createIndex = function(cb){
+    client.indices.create({
+      index: 'redditnba'
+    }).then(res => {
+      cb(null, "Index redditnba is created.");
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
   Post.bulkInsert = function (cb) {
     axios.get('https://www.reddit.com/r/nba/new.json?restrict_sr=1')
       .then(function (response) {
@@ -77,6 +87,15 @@ module.exports = function (Post) {
     })
   }
 
+  Post.remoteMethod('createIndex', {
+    http: {
+      verb: 'post'
+    },
+    returns: {
+      arg: 'msg',
+      type: 'string'
+    }
+  });
   Post.remoteMethod('bulkInsert', {
     http: {
       verb: 'post'
