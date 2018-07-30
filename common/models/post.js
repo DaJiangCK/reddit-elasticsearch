@@ -8,13 +8,13 @@ const client = new elasticsearch.Client({
 });
 const axios = require('axios');
 module.exports = function (Post) {
-  Post.createIndex = function(cb){
+  Post.createIndex = function (cb) {
     client.indices.create({
       index: 'redditnba'
     }).then(res => {
-      cb(null, "Index redditnba is created.");
+      cb(null, res);
     }).catch(err => {
-      console.log(err);
+      cb(err);
     });
   }
 
@@ -25,9 +25,9 @@ module.exports = function (Post) {
         const filteredArray = filterData(response.data.data.children);
         bulkInsert(filteredArray, cb);
       })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
+      .catch(function (err) {
+        // handle err
+        cb(err);
       })
 
     const filterData = function (data) {
@@ -55,8 +55,8 @@ module.exports = function (Post) {
       client.bulk({
         body: data
       }, (err, resp) => {
-        if (err) console.log(err);
-        cb(null, "Bulk Insert is done!");
+        if (err) return cb(err);
+        cb(null, resp);
       });
     }
   }
@@ -66,14 +66,14 @@ module.exports = function (Post) {
       index: 'redditnba',
       type: 'post',
       q: text
-    }).then(function (resp) {
+    }).then(resp => {
       let results = [];
       resp.hits.hits.forEach(function (h) {
         results.push(h._source);
       });
       cb(null, results);
-    }, function (err) {
-      throw new Error(err);
+    }).catch(err => {
+      cb(err);
     });
   }
 
@@ -81,9 +81,9 @@ module.exports = function (Post) {
     client.indices.delete({
       index: 'redditnba'
     }).then(res => {
-      cb(null, "Bulk Delete is done!");
+      cb(null, res);
     }).catch(err => {
-      throw new Error(err);
+      cb(err);
     })
   }
 
