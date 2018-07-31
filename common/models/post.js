@@ -20,7 +20,7 @@ module.exports = function (Post) {
   }
 
   Post.bulkInsert = function (subreddit, cb) {
-    axios.get('https://www.reddit.com/r/' + subreddit +'/new.json?restrict_sr=1')
+    axios.get('https://www.reddit.com/r/' + subreddit + '/new.json?restrict_sr=1')
       .then(function (response) {
         // handle success
         const filteredArray = filterData(response.data.data.children);
