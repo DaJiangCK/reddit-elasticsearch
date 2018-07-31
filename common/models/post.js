@@ -8,9 +8,10 @@ const client = new elasticsearch.Client({
 });
 const axios = require('axios');
 module.exports = function (Post) {
+
   Post.createIndex = function (cb) {
     client.indices.create({
-      index: 'redditnba'
+      index: 'reddit'
     }).then(res => {
       cb(null, res);
     }).catch(err => {
@@ -18,8 +19,8 @@ module.exports = function (Post) {
     });
   }
 
-  Post.bulkInsert = function (cb) {
-    axios.get('https://www.reddit.com/r/nba/new.json?restrict_sr=1')
+  Post.bulkInsert = function (subreddit, cb) {
+    axios.get('https://www.reddit.com/r/' + subreddit +'/new.json?restrict_sr=1')
       .then(function (response) {
         // handle success
         const filteredArray = filterData(response.data.data.children);
@@ -35,8 +36,8 @@ module.exports = function (Post) {
       data.map((content, index) => {
         filteredArray.push({
           "index": {
-            "_index": "redditnba",
-            "_type": "post",
+            "_index": "reddit",
+            "_type": subreddit,
             "_id": index
           }
         });
@@ -61,10 +62,10 @@ module.exports = function (Post) {
     }
   }
 
-  Post.search = function (text, cb) {
+  Post.search = function (subreddit, text, cb) {
     client.search({
-      index: 'redditnba',
-      type: 'post',
+      index: 'reddit',
+      type: subreddit,
       q: text
     }).then(resp => {
       let results = [];
@@ -79,7 +80,7 @@ module.exports = function (Post) {
 
   Post.bulkDelete = function (cb) {
     client.indices.delete({
-      index: 'redditnba'
+      index: 'reddit'
     }).then(res => {
       cb(null, res);
     }).catch(err => {
@@ -100,16 +101,25 @@ module.exports = function (Post) {
     http: {
       verb: 'post'
     },
+    accepts: {
+      arg: 'subreddit',
+      type: 'string'
+    },
     returns: {
       arg: 'msg',
       type: 'string'
     }
   });
   Post.remoteMethod('search', {
-    accepts: {
-      arg: 'text',
-      type: 'string'
-    },
+    accepts: [{
+        arg: 'subreddit',
+        type: 'string'
+      },
+      {
+        arg: 'text',
+        type: 'string'
+      },
+    ],
     returns: {
       arg: 'results',
       type: 'array'
